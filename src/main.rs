@@ -25,7 +25,7 @@ async fn main_page() -> Option<NamedFile> {
 fn calc(initial: f64,
     interest: f64, 
     interest_unit: InterestUnit, 
-    time: f64, 
+    time: i32, 
     time_unit: TimeUnit, 
     contribution: Option<f64>) -> Json<Vec<juro::Result>> {
 
@@ -34,7 +34,7 @@ fn calc(initial: f64,
         i = juro::Interest::from_month(interest)
     }
     else if interest_unit == InterestUnit::Year {
-        i = juro::Interest::from_month(interest)
+        i = juro::Interest::from_effective_year(interest)
     } else {
         panic!("Error")
     }
