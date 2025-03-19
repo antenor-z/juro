@@ -1,0 +1,12 @@
+services:
+  juro:
+    build: .
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    networks:
+      - net
+
+networks:
+  net:
+    external: true
