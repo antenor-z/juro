@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/style-radio.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
@@ -17,7 +18,7 @@
             <label for="interest">Juros (%)</label>
             <input type="text" id="interest" placeholder="12.36%">
 
-            <div style="display: inline-flex;">
+            <div class="radio-toolbar" style="display: inline-flex;">
                 <input type="radio" id="interest_year" name="interest_unit" value="year" checked>
                 <label for="interest_year">a.a.</label>
                 <input type="radio" id="interest_month" name="interest_unit" value="month">
@@ -26,11 +27,11 @@
 
             <label for="time">Tempo</label>
             <input type="text" id="time" placeholder="1">
-            <div style="display: inline-flex;">
+            <div class="radio-toolbar" style="display: inline-flex;">
                 <input type="radio" id="time_year" name="time_unit" value="year" checked>
-                <label for="time_year">ano</label>
+                <label for="time_year">ano(s)</label>
                 <input type="radio" id="time_month" name="time_unit" value="month">
-                <label for="time_month">mês</label>
+                <label for="time_month">mês(es)</label>
             </div>
 
             <label for="contribution">Aporte mensal</label>
