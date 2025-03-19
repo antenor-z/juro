@@ -12,7 +12,7 @@
 <body id="body">
     <container>
         <div class="form-container">
-            <label for="initial">Saldo inicial ($)</label>
+            <label for="initial">Saldo inicial</label>
             <input type="text" id="initial" placeholder="10000.00">
             <label for="interest">Juros (%)</label>
             <input type="text" id="interest" placeholder="12.36%">
@@ -23,17 +23,17 @@
                 <input type="radio" id="interest_month" name="interest_unit" value="month">
                 <label for="interest_month">a.m.</label>
             </div>
-            
+
             <label for="time">Tempo</label>
             <input type="text" id="time" placeholder="1">
             <div style="display: inline-flex;">
                 <input type="radio" id="time_year" name="time_unit" value="year" checked>
-                <label for="time_year">ano(s)</label>
+                <label for="time_year">ano</label>
                 <input type="radio" id="time_month" name="time_unit" value="month">
-                <label for="time_month">mês(es)</label>
+                <label for="time_month">mês</label>
             </div>
 
-            <label for="contribution">Aporte mensal ($)</label>
+            <label for="contribution">Aporte mensal</label>
             <input type="text" id="contribution" placeholder="0">
             <button onclick="calc()">Calcular</button>
         </div>
@@ -134,8 +134,9 @@
                     document.getElementsByTagName("container")[0].appendChild(resultsTable)
                 })
         }
-        Chart.defaults.color = "#fff";
-        Chart.defaults.devicePixelRatio = 2;
+        Chart.defaults.color = "#fff"
+        Chart.defaults.devicePixelRatio = 2
+        Chart.defaults.font.size = 14
         function createGraph(data) {
             const labels = data.map(item => {
                 if (item.month < 12) {
@@ -165,39 +166,46 @@
                         {
                             label: 'Investido',
                             data: investedData,
-                            borderColor: '#FF6384',
-                            backgroundColor: '#FF638480',
+                            borderColor: '#FF638460',
+                            backgroundColor: '#FF6384FF',
                             tension: 0.4
                         },
                         {
                             label: 'Acumulado',
                             data: accumulatedData,
-                            borderColor: '#36A2EB',
-                            backgroundColor: '#36A2EB80',
+                            borderColor: '#36A2EB60',
+                            backgroundColor: '#36A2EBFF',
                             tension: 0.4
                         }
                     ]
                 },
                 options: {
-                            responsive: true,
-                            scales: {
-                                x: {
-                                    title: {
-                                        display: true,
-                                        text: 'Tempo'
-                                    }
-                                },
-                                y: {
-                                    title: {
-                                        display: true,
-                                        text: 'Valor ($)'
-                                    },
-                                    beginAtZero: true
-                                }
-                            }
+                    responsive: true,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Tempo'
+                            },
+                            grid: {
+                                color: '#ffffff20'
+                            },
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Valor ($)'
+                            },
+                            grid: {
+                                color: '#ffffff20'
+                            },
+                            beginAtZero: true
                         }
+                    }
+                }
             }
             )
+            setTimeout(() => { window.scrollTo({ top: 500, behavior: 'smooth' }) }, 100)
         }
     </script>
 </body>

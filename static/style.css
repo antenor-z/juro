@@ -1,80 +1,98 @@
 body {
-  color: #eee;
-  background-color: #505050;
+  color: #ffffffee;
+  background-color: #2e2e2e;
   font-size: 18px;
   font-family: sans-serif;
 }
+
 container {
   padding: 10px 0;
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
   display: block;
 }
 
 table {
-  margin-top: 20px;
+  margin: 20px auto;
+  font-size: 20px;
+  width: 100%;
 }
 
 th,
 td {
-    border: 1px solid rgb(160 160 160);
-    padding: 8px 10px;
+  border: 1px solid rgb(160 160 160);
+  padding: 8px 10px;
 }
 
-th[scope="col"] {
-    background-color: #363636;
-    color: #fff;
-}
-
-th[scope="row"] {
-    background-color: #646464;
+th {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: #36a3ebd6;
 }
 
 td {
-    text-align: center;
+  text-align: center;
+}
+
+td:first {
+  text-align: left !important;
 }
 
 tr:nth-of-type(even) {
-    background-color: #6f6f6f;
+  background-color: #6f6f6f8d;
 }
 
 table {
-    border-collapse: collapse;
-    border: 2px solid rgb(140 140 140);
-    font-family: sans-serif;
-    font-size: 0.8rem;
-    letter-spacing: 1px;
+  border-collapse: collapse;
+  border: 2px solid rgb(140 140 140);
+  font-family: sans-serif;
+  letter-spacing: 1px;
 }
 
 .form-container {
-    display: grid;
-    label, div {
-      margin-top: 10px;
-    }
-    button {
-      margin-top: 20px;
-    }
+  display: grid;
+
+  label,
+  div {
+    margin-top: 10px;
+  }
+
+  button {
+    margin-top: 20px;
+  }
 }
 
-input[type="text"], button {
-    font-size: 24px;
-    color: white;
-    border: solid rgba(255, 255, 255, 0) 3px;
-    border-radius: 10px;
-    padding: 5px;
-    width: 100%;
-    box-sizing: border-box;
-    background-color: rgba(255, 255, 255, 0.3);
-    outline: none;
-    margin-top: 5px;
-    transition: border-color 0.3s ease;
+input[type="text"],
+button {
+  font-size: 24px;
+  color: white;
+  border: solid rgba(255, 255, 255, 0) 3px;
+  border-radius: 10px;
+  padding: 5px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.3);
+  outline: none;
+  margin-top: 5px;
+  transition: border-color 0.3s ease;
+}
+
+label {
+  font-size: 18px;
 }
 
 button {
-    background-color: rgba(255, 255, 255, 0.4);
+  background-color: #36a2eb;
 }
 
 
-input:focus, button:hover {
-	  border: solid rgba(255, 255, 255, 0.75) 3px;
+input:focus,
+button:hover {
+  border: solid rgba(255, 255, 255, 0.75) 3px;
+}
+
+#myChart {
+  margin-top: 20px;
 }
