@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body id="body">
@@ -15,15 +16,17 @@
             <input type="text" id="initial" placeholder="10000.00">
             <label for="interest">Juros (%)</label>
             <input type="text" id="interest" placeholder="12.36%">
-            <div style="display: block;">
+
+            <div style="display: inline-flex;">
                 <input type="radio" id="interest_year" name="interest_unit" value="year" checked>
                 <label for="interest_year">a.a.</label>
                 <input type="radio" id="interest_month" name="interest_unit" value="month">
                 <label for="interest_month">a.m.</label>
             </div>
+            
             <label for="time">Tempo</label>
             <input type="text" id="time" placeholder="1">
-            <div style="display: block;">
+            <div style="display: inline-flex;">
                 <input type="radio" id="time_year" name="time_unit" value="year" checked>
                 <label for="time_year">ano(s)</label>
                 <input type="radio" id="time_month" name="time_unit" value="month">
@@ -33,6 +36,10 @@
             <label for="contribution">Aporte mensal ($)</label>
             <input type="text" id="contribution" placeholder="0">
             <button onclick="calc()">Calcular</button>
+        </div>
+        <section id="Graph"></section>
+        <div>
+            <canvas id="myChart"></canvas>
         </div>
     </container>
 
@@ -58,7 +65,9 @@
 
             fetch(`/juro?${params.toString()}`)
                 .then(response => response.json())
-                .then(data => { 
+                .then(data => {
+                    createGraph(data)
+
                     const resultsTableOld = document.getElementById("results-table")
                     if (resultsTableOld !== null) {
                         resultsTableOld.remove()
@@ -68,7 +77,7 @@
 
                     const tHeader = document.createElement("tr")
                     const monthH = document.createElement("th")
-                    monthH.innerText = "Mês"
+                    monthH.innerText = "Tempo"
                     const investedH = document.createElement("th")
                     investedH.innerText = "Investido"
                     const acumulatedH = document.createElement("th")
@@ -89,7 +98,16 @@
                     data.forEach(element => {
                         const row = document.createElement("tr")
                         const month = document.createElement("td")
-                        month.innerText = element.month
+                        if (element.month < 12) {
+                            month.innerText = element.month + "m"
+                        }
+                        else if (element.month % 12 == 0) {
+                            month.innerText = `${Math.floor(element.month / 12)}a`
+                        }
+                        else {
+                            month.innerText = `${Math.floor(element.month / 12)}a ${element.month % 12}m`
+                        }
+
                         const invested = document.createElement("td")
 
                         invested.innerText = element.invested
@@ -115,7 +133,72 @@
 
                     document.getElementsByTagName("container")[0].appendChild(resultsTable)
                 })
+        }
+        Chart.defaults.color = "#fff";
+        Chart.defaults.devicePixelRatio = 2;
+        function createGraph(data) {
+            const labels = data.map(item => {
+                if (item.month < 12) {
+                    return item.month + "m"
+                }
+                else if (item.month % 12 == 0) {
+                    return `${Math.floor(item.month / 12)}a`
+                }
+                else {
+                    return `${Math.floor(item.month / 12)}a ${item.month % 12}m`
+                }
+            })
+            const investedData = data.map(item => item.invested)
+            const accumulatedData = data.map(item => item.acumulated)
+
+            let chartStatus = Chart.getChart("myChart")
+            if (chartStatus != undefined) {
+                chartStatus.destroy()
             }
+
+            const ctx = document.getElementById('myChart')
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Investido',
+                            data: investedData,
+                            borderColor: '#FF6384',
+                            backgroundColor: '#FF638480',
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Acumulado',
+                            data: accumulatedData,
+                            borderColor: '#36A2EB',
+                            backgroundColor: '#36A2EB80',
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                            responsive: true,
+                            scales: {
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Tempo'
+                                    }
+                                },
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: 'Valor ($)'
+                                    },
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+            }
+            )
+        }
     </script>
 </body>
 

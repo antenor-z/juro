@@ -3,13 +3,10 @@ body {
   background-color: #505050;
   font-size: 18px;
   font-family: sans-serif;
-  input, button, table {
-    font-size: 18px;
-  }
 }
 container {
   padding: 10px 0;
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
   display: block;
 }
@@ -51,10 +48,33 @@ table {
 
 .form-container {
     display: grid;
-    label {
+    label, div {
       margin-top: 10px;
     }
     button {
       margin-top: 20px;
     }
+}
+
+input[type="text"], button {
+    font-size: 24px;
+    color: white;
+    border: solid rgba(255, 255, 255, 0) 3px;
+    border-radius: 10px;
+    padding: 5px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.3);
+    outline: none;
+    margin-top: 5px;
+    transition: border-color 0.3s ease;
+}
+
+button {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+
+input:focus, button:hover {
+	  border: solid rgba(255, 255, 255, 0.75) 3px;
 }
