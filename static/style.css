@@ -79,12 +79,17 @@ button {
   transition: border-color 0.3s ease;
 }
 
-label {
-  font-size: 18px;
-}
-
 button {
   background-color: #36a2eb;
+}
+
+button:disabled {
+  background-color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+label {
+  font-size: 18px;
 }
 
 
