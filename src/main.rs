@@ -3,6 +3,8 @@ use std::path::Path;
 
 use rocket::{fs::NamedFile, fs::relative, serde::json::Json};
 pub mod juro;
+use reqwest::{Client, Response};
+use serde::Deserialize;
 
 #[derive(Debug, PartialEq, FromFormField)]
 enum InterestUnit {Month, Year}
@@ -59,8 +61,29 @@ fn calc(initial: f64,
     return Json(result);
 }
 
+#[derive(Deserialize, serde::Serialize, Debug)]
+struct ApiResponse {
+    data: String,
+    valor: String,
+}
+
+#[get("/selic")]
+async fn get_selic() -> String {
+    let client = Client::new();
+    let res = client.get("google.com")
+        .send()
+        .await
+        .unwrap();
+
+    let selic: Vec<ApiResponse> = res.json()
+        .await
+        .unwrap_or(vec![ApiResponse{data: "01/01/01".to_string(), valor:"10.0".to_string()}]);
+
+    return selic[0].valor.clone();
+}
+
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![calc, main_page, static_file])
+    rocket::build().mount("/", routes![calc, main_page, static_file, get_selic])
 }
 
