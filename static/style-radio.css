@@ -22,6 +22,7 @@
 
 .radio-toolbar label:hover {
     background-color: #36a3eba9;
+    cursor: pointer;
 }
 
 .radio-toolbar input[type="radio"]:checked+label {
