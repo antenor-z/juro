@@ -96,8 +96,24 @@ label {
 input:focus,
 button:hover {
   border: solid rgba(255, 255, 255, 0.75) 3px;
+  cursor: pointer;
+}
+
+button:disabled {
+  border: 0;
+  cursor: not-allowed;
 }
 
 #myChart {
   margin-top: 20px;
+}
+
+.button-group {
+  display: flex;
+  #calculate {
+    margin-right: 10px;
+  }
+  #csv {
+    margin-left: 10px;
+  }
 }

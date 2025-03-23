@@ -3,8 +3,6 @@ use std::path::Path;
 
 use rocket::{fs::NamedFile, fs::relative, serde::json::Json};
 pub mod juro;
-use reqwest::{Client, Response};
-use serde::Deserialize;
 
 #[derive(Debug, PartialEq, FromFormField)]
 enum InterestUnit {Month, Year}
@@ -15,6 +13,11 @@ enum TimeUnit {Month, Year}
 #[get("/static/<f>")]
 async fn static_file(f: &str) -> Option<NamedFile> {
     let path = Path::new(relative!("static")).join(f);
+    NamedFile::open(path).await.ok()
+}
+#[get("/static/3p/<f>")]
+async fn static_file_3p(f: &str) -> Option<NamedFile> {
+    let path = Path::new(relative!("static/3p/")).join(f);
     NamedFile::open(path).await.ok()
 }
 #[get("/")]
@@ -30,6 +33,46 @@ fn calc(initial: f64,
     time: i32, 
     time_unit: TimeUnit, 
     contribution: Option<f64>) -> Json<Vec<juro::Result>> {
+
+    let result: Vec<juro::Result> = calc_common(
+        initial, interest, interest_unit, time, time_unit, contribution);
+
+    return Json(result);
+}
+
+#[get("/juro/csv?<initial>&<interest>&<interest_unit>&<time>&<time_unit>&<contribution>")]
+fn get_csv(initial: f64,
+    interest: f64, 
+    interest_unit: InterestUnit, 
+    time: i32, 
+    time_unit: TimeUnit, 
+    contribution: Option<f64>) -> String {
+
+    let result: Vec<juro::Result> = calc_common(
+        initial, interest, interest_unit, time, time_unit, contribution);
+
+    let mut res = String::new();
+    res += "investido,acumulado,aumento,juros\n";
+    for row in result {
+        res += &format!(
+            "{},{},{},{},{}\n", 
+            row.month, 
+            row.invested, 
+            row.acumulated, 
+            row.increase, 
+            row.increase_interest
+        );
+    }
+
+    return res;
+}
+
+fn calc_common(initial: f64,
+    interest: f64, 
+    interest_unit: InterestUnit, 
+    time: i32, 
+    time_unit: TimeUnit, 
+    contribution: Option<f64>) -> Vec<juro::Result> {
 
     let i: juro::Interest;
     if interest_unit == InterestUnit::Month {
@@ -56,34 +99,11 @@ fn calc(initial: f64,
         interest: i,
         contribution_per_month: contribution.unwrap_or(0.0)};
 
-    let result: Vec<juro::Result> = calc.by_month(t);
-
-    return Json(result);
-}
-
-#[derive(Deserialize, serde::Serialize, Debug)]
-struct ApiResponse {
-    data: String,
-    valor: String,
-}
-
-#[get("/selic")]
-async fn get_selic() -> String {
-    let client = Client::new();
-    let res = client.get("google.com")
-        .send()
-        .await
-        .unwrap();
-
-    let selic: Vec<ApiResponse> = res.json()
-        .await
-        .unwrap_or(vec![ApiResponse{data: "01/01/01".to_string(), valor:"10.0".to_string()}]);
-
-    return selic[0].valor.clone();
+    calc.by_month(t)
 }
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![calc, main_page, static_file, get_selic])
+    rocket::build().mount("/", routes![calc, main_page, get_csv, static_file_3p, static_file])
 }
 

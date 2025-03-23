@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="/static/style.css">
     <link rel="stylesheet" href="/static/style-radio.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/static/3p/chart.js"></script>
 </head>
 
 <body id="body">
@@ -36,7 +36,10 @@
 
             <label for="contribution">Aporte mensal</label>
             <input type="text" id="contribution">
-            <button id="calculate" onclick="calc()" disabled>Calcular</button>
+            <div class="button-group">
+                <button id="calculate" onclick="calc()" disabled>Calcular</button>
+                <button id="csv" onclick="csv()" disabled>Baixar CSV</button>
+            </div>
         </div>
         <section id="Graph"></section>
         <div>
@@ -48,7 +51,7 @@
     <script>
         document.getElementById("initial").addEventListener("blur", (e) => format(e))
         document.getElementById("interest").addEventListener("blur", (e) => format(e))
-        document.getElementById("tempo").addEventListener("blur", (e) => format(e, true))
+        document.getElementById("time").addEventListener("blur", (e) => format(e, true))
         document.getElementById("contribution").addEventListener("blur", (e) => format(e))
 
         function format(e, integer = false) {

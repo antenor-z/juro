@@ -20,6 +20,7 @@ function calc() {
     fetch(`/juro?${params.toString()}`)
         .then(response => response.json())
         .then(data => {
+            removeTableChart()
             createGraph(data)
 
             const resultsTableOld = document.getElementById("results-table")
@@ -106,11 +107,6 @@ function createGraph(data) {
     const investedData = data.map(item => item.invested)
     const accumulatedData = data.map(item => item.acumulated)
 
-    let chartStatus = Chart.getChart("myChart")
-    if (chartStatus != undefined) {
-        chartStatus.destroy()
-    }
-
     const ctx = document.getElementById('myChart')
     new Chart(ctx, {
         type: 'line',
@@ -168,16 +164,60 @@ document.getElementById("time").addEventListener("input", (event) => {check_inpu
 document.getElementById("contribution").addEventListener("input", (event) => {check_inputs()})
 
 function check_inputs() {
+    removeTableChart()
+
     const initial = parseFloat(document.getElementById("initial").value)
     const interest = parseFloat(document.getElementById("interest").value) / 100
     const time = parseFloat(document.getElementById("time").value)
 
     if (isNaN(initial) | isNaN(interest) || isNaN(time) ) {
         document.getElementById("calculate").disabled = true
+        document.getElementById("csv").disabled = true
     } else {
         document.getElementById("calculate").disabled = false
+        document.getElementById("csv").disabled = false
     }
-
 }
+
+function csv() {
+    const initial = parseFloat(document.getElementById("initial").value.replace(",", "."))
+    const interest = parseFloat(document.getElementById("interest").value.replace(",", ".")) / 100
+    const time = parseFloat(document.getElementById("time").value)
+    const contribution = parseFloat(document.getElementById("contribution").value.replace(",", "."))
+
+    const interest_unit = document.querySelector('input[name="interest_unit"]:checked').value;
+    const time_unit = document.querySelector('input[name="time_unit"]:checked').value;
+
+    const params = new URLSearchParams(
+        {
+            initial: initial,
+            interest: interest,
+            interest_unit: interest_unit,
+            time: time,
+            time_unit: time_unit,
+            contribution: contribution ? contribution : 0.0,
+        })
+
+    download(`/juro/csv?${params.toString()}`, "res.csv");
+}
+
+function download(dataurl, filename) {
+    const link = document.createElement("a");
+    link.href = dataurl;
+    link.download = filename;
+    link.click();
+  }
+
+function removeTableChart() {
+    let chartStatus = Chart.getChart("myChart")
+    if (chartStatus != undefined) {
+        chartStatus.destroy()
+    }
+    const resultsTableOld = document.getElementById("results-table")
+    if (resultsTableOld !== null) {
+        resultsTableOld.remove()
+    }
+}
+  
 
 

@@ -37,11 +37,11 @@ pub struct Calculation {
 }
 #[derive(Serialize)]
 pub struct Result {
-    month: i32,
-    acumulated: f64,
-    invested: f64,
-    increase: f64,
-    increase_interest: f64
+    pub month: i32,
+    pub acumulated: f64,
+    pub invested: f64,
+    pub increase: f64,
+    pub increase_interest: f64
 }
 impl Calculation {
     pub fn compound_interest(&self, time: Time) -> f64 {
