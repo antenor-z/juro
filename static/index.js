@@ -1,8 +1,8 @@
 function calc() {
-    const initial = parseFloat(document.getElementById("initial").value)
-    const interest = parseFloat(document.getElementById("interest").value) / 100
+    const initial = parseFloat(document.getElementById("initial").value.replace(",", "."))
+    const interest = parseFloat(document.getElementById("interest").value.replace(",", ".")) / 100
     const time = parseFloat(document.getElementById("time").value)
-    const contribution = parseFloat(document.getElementById("contribution").value)
+    const contribution = parseFloat(document.getElementById("contribution").value.replace(",", "."))
 
     const interest_unit = document.querySelector('input[name="interest_unit"]:checked').value;
     const time_unit = document.querySelector('input[name="time_unit"]:checked').value;
@@ -65,16 +65,16 @@ function calc() {
                 const invested = document.createElement("td")
 
                 invested.innerText = element.invested
-                    .toLocaleString("en-US", { maximumFractionDigits: 2, minimumFractionDigits: 2 })
+                    .toLocaleString("pt-BR", { maximumFractionDigits: 2, minimumFractionDigits: 2 })
                 const acumulated = document.createElement("td")
                 acumulated.innerText = element.acumulated
-                    .toLocaleString("en-US", { maximumFractionDigits: 2, minimumFractionDigits: 2 })
+                    .toLocaleString("pt-BR", { maximumFractionDigits: 2, minimumFractionDigits: 2 })
                 const increase = document.createElement("td")
                 increase.innerText = element.increase
-                    .toLocaleString("en-US", { maximumFractionDigits: 2, minimumFractionDigits: 2 })
+                    .toLocaleString("pt-BR", { maximumFractionDigits: 2, minimumFractionDigits: 2 })
                 const increaseInterest = document.createElement("td")
                 increaseInterest.innerText = element.increase_interest
-                    .toLocaleString("en-US", { maximumFractionDigits: 2, minimumFractionDigits: 2 })
+                    .toLocaleString("pt-BR", { maximumFractionDigits: 2, minimumFractionDigits: 2 })
 
                 row.appendChild(month)
                 row.appendChild(invested)
@@ -171,10 +171,6 @@ function check_inputs() {
     const initial = parseFloat(document.getElementById("initial").value)
     const interest = parseFloat(document.getElementById("interest").value) / 100
     const time = parseFloat(document.getElementById("time").value)
-
-    console.log(initial)
-    console.log(interest)
-    console.log(time)
 
     if (isNaN(initial) | isNaN(interest) || isNaN(time) ) {
         document.getElementById("calculate").disabled = true
