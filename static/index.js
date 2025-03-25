@@ -1,6 +1,6 @@
 function calc() {
-    const initial = parseFloat(document.getElementById("initial").value.replace(",", "."))
-    const interest = parseFloat(document.getElementById("interest").value.replace(",", ".")) / 100
+    const initial = parseFloat(document.getElementById("initial").value.replaceAll(".", "").replace(",", "."))
+    const interest = parseFloat(document.getElementById("interest").value.replaceAll(".", "").replace(",", ".")) / 100
     const time = parseFloat(document.getElementById("time").value)
     const contribution = parseFloat(document.getElementById("contribution").value.replace(",", "."))
 
