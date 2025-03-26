@@ -2,7 +2,7 @@ function calc() {
     const initial = parseFloat(document.getElementById("initial").value.replaceAll(".", "").replace(",", "."))
     const interest = parseFloat(document.getElementById("interest").value.replaceAll(".", "").replace(",", ".")) / 100
     const time = parseFloat(document.getElementById("time").value)
-    const contribution = parseFloat(document.getElementById("contribution").value.replaceAll(".", "").value.replace(",", "."))
+    const contribution = parseFloat(document.getElementById("contribution").value.replaceAll(".", "").replace(",", "."))
 
     const interest_unit = document.querySelector('input[name="interest_unit"]:checked').value;
     const time_unit = document.querySelector('input[name="time_unit"]:checked').value;
